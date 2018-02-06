@@ -130,7 +130,7 @@ if __name__ == '__main__':
                             check_dist += (box[i] - prev_box[i]) ** 2
                         check_dist = math.sqrt(check_dist)
                         if check_dist > 50:
-                            print 'ignore out of range target'
+                            # Target is out of range, so we can ignore it.
                             continue
 
                     if prev_box != None:
@@ -171,6 +171,8 @@ if __name__ == '__main__':
                 # Concept from https://docs.opencv.org/2.4/modules/video/doc/motion_analysis_and_object_tracking.html
                 elif corners != None and len(corners.shape) == 3:
                     if prev_frame_gray != None:
+                    	# The error is the distance between the center of the fram (center of the screen being displayed)
+                    	# and the center of the locked-target's lock on point (center of the circle)
                         corners, st, err = cv2.calcOpticalFlowPyrLK(prev_frame_gray, frame_gray, corners, None, **lk_params)
 
                         npt = np.sum(st==1)
