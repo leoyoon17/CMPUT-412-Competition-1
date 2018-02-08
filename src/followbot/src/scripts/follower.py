@@ -21,6 +21,7 @@ frame = np.zeros([480, 640, 3], dtype=np.uint8)
 depth_image = None
 display = True
 
+# Concept from http://wiki.ros.org/cv_bridge/Tutorials/ConvertingBetweenROSImagesAndOpenCVImagesPython
 bridge = CvBridge()
 cascade = cv2.CascadeClassifier('kobuki_haar.xml')
 
