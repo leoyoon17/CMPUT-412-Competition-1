@@ -24,14 +24,32 @@ To actually track a moving target, the concept of Optical Flow was utilized (the
 cv2.calcOpticalFlowPyrLK(prev_frame_gray, frame_gray, corners, None, **lk_params)
 ```
 
+Some paramaters had to be initialized to make the Lucas Kanade Optical Flow function properly.
+(Note: the general concept behind the Lucas Kanade Optical Flow revolves around taking a 3x3 patch around the point. So all the 9 points have the same motion.)
+
+```python
+# To track Optical Flow (the pattern of apparent motion of images between two consecutive frames)
+# Parameters for ShiTomasi corner detection
+# Concept from https://docs.opencv.org/3.3.1/d7/d8b/tutorial_py_lucas_kanade.html
+feature_params = dict( maxCorners = 100,
+        qualityLevel = 0.3,
+        minDistance = 7,
+        blockSize = 7 )
+
+# Parameters for Lucas Kanade Optical Flow
+lk_params = dict( winSize  = (15,15),
+        maxLevel = 2,
+        criteria = (cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 10, 0.03))
+```
 Finally, the concept of velocity ramping was used to ensure that we follow the target with little jerky movements.
 
 Hypothesis
 ==========
 
-During the pursuit portion of the competition, we wanted to see if it was possible to reliably follow our opposing robot by utilizing the optical sensor.
+During the pursuit portion of the competition, we wanted to see if it was possible to reliably follow our opposing robot by utilizing the optical sensor. Our hypothesis for this portion was that following another robot was possible
 
-Conversely, during the evasion portion of the competition, we wanted to find out if we could successfully navigate around the given environment by utilizing the optical sensor.
+Conversely, during the evasion portion of the competition, we wanted to find out if we could successfully navigate around the given environment by utilizing the optical sensor. Our hypothesis for this portion was that evading the given environment was possible.
+
 Materials
 =========
 The optical sensor which was used for tracking/vision was the Asus Xtion Pro Live.
