@@ -83,7 +83,10 @@ Besides the speed we used LaserScan to calculate the distance between the object
  Fortunately, the robot performed well during the competition (albeit, thanks to malfunctions on the other teams' programs). The evasion bot was able to out manouver most of the comptetition due to its lack of velocity smoothing and continuous obstacle checking. For the pursuit section, our robot was able to track the opposing robot, and follow it well. Although, one of the pursuit rounds, our robot failed to reverse out of the incoming robot's path.
 
 We can see the results of the evasion section here:
-![Evasion]()
+![Evasion](https://github.com/leoyoon17/CMPUT-412-Competition-1/blob/master/docs/evasion.mp4)
+
+And the results of the pursuit section is here:
+![Pursuit](https://github.com/leoyoon17/CMPUT-412-Competition-1/blob/master/docs/pursuit.mp4)
  
 Discussion
 ==========
