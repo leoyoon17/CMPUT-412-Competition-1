@@ -235,7 +235,7 @@ if __name__ == '__main__':
                     destination_y = None
 
                 else:
-                    print 'Target Lost.'
+                    print 'Target Lost!'
                     target_locked = False
 
                 if display and corners != None:
