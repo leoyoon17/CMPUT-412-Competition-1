@@ -16,7 +16,7 @@ Initially, the image collected by the optical sensor is converted/bridged into t
 bridge = CvBridge() 
 ```
 
-To actually track a moving target, the concept of Optical Flow was utilized (the pattern of apparnet motion of image objects between two consecutive frames caused by the movement of object or camera. Its good to note that the cv2 library comes with with code to easily utilize optical flow to track targets.
+To actually track a moving target, the concept of Optical Flow was utilized (the pattern of apparnet motion of image objects between two consecutive frames caused by the movement of object or camera. Its good to note that the cv2 library comes with with code to easily incorporate optical flow to track targets.
 
 ![Optical Flow](https://docs.opencv.org/3.3.1/optical_flow_basic1.jpg) 
 
@@ -30,7 +30,7 @@ Some paramaters had to be initialized to make the Lucas Kanade Optical Flow func
 ```python
 # To track Optical Flow (the pattern of apparent motion of images between two consecutive frames)
 # Parameters for ShiTomasi corner detection
-# Concept from https://docs.opencv.org/3.3.1/d7/d8b/tutorial_py_lucas_kanade.html
+# Concept & code from https://docs.opencv.org/3.3.1/d7/d8b/tutorial_py_lucas_kanade.html
 feature_params = dict( maxCorners = 100,
         qualityLevel = 0.3,
         minDistance = 7,
@@ -41,12 +41,13 @@ lk_params = dict( winSize  = (15,15),
         maxLevel = 2,
         criteria = (cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 10, 0.03))
 ```
+
 Finally, the concept of velocity ramping was used to ensure that we follow the target with little jerky movements.
 
 Hypothesis
 ==========
 
-During the pursuit portion of the competition, we wanted to see if it was possible to reliably follow our opposing robot by utilizing the optical sensor. Our hypothesis for this portion was that following another robot was possible
+During the pursuit portion of the competition, we wanted to see if it was possible to reliably follow our opposing robot by utilizing the optical sensor. Our hypothesis for this portion was that following another robot was possible.
 
 Conversely, during the evasion portion of the competition, we wanted to find out if we could successfully navigate around the given environment by utilizing the optical sensor. Our hypothesis for this portion was that evading the given environment was possible.
 
@@ -61,10 +62,9 @@ We made basic modifications to the stock robot in which we were provided:
   * A seat-belt-esque strap was placed on the laptop to ensure that it would not fall off during movement
   
 The following nodes were used in the program to run the robot:
-  *minimal (/cmd_vel_mux/input/teleop)
-  *3d.sensor (/camera/depth/image , /camera/rgb/image_raw)
-  *logitech (joy)
-  *cmd_vel_safe (for on and sleep mode, which is controlled with the logitech controller)
+* follower (for all of the pursuit section)
+* movement (for the velocity smoothing in the pursuit section)
+* wander (for the evasion section) 
   
  Method
  ======
@@ -72,6 +72,10 @@ The following nodes were used in the program to run the robot:
  The initial concept of using OpenCV's library to track the robot was from a previous competition's program. Their program was a good place to start, but changed had to be made to bring it to competition specifications. (we could not get it to run via the given launch file, so we had to source some sections of the code to fit our needs) (https://github.com/BrianEverRoboticsTeam/Evasion-Pursuit-Competition)
  
  Movement was based off the textbook's (Programming Robots with ROS) velocity ramping code.
+
+ Based on the testing of our pursuit robot, we realized that if the opposing robot gets out of range, then it cannot follow other bot. Thus, we decided to work on the speed, since we believed that it was the key to victory.
+As a result, we did not use a velocity smoother to get faster even though it was resulting in jerky movements. 
+Besides the speed we used LaserScan to calculate the distance between the object in front of the robot and itself. Also, instead of only turning and moving, we implemented the robot to move and turn at the sametime if the distance is not less than the threshold as well as not nan. 
  
  Results
  =======
@@ -89,6 +93,8 @@ During testing, we had noticed that while the robot was tracking a moving target
 In the end, the most important aspect for success during this competition was how FAST our robot would move (accelerating, decelerating, turning, etc). During testing, our environment was much larger than the actual competition grounds, so we had calibrated our velocity to be rather high. But thanks to the velocity smoothing, this was no issue.
 
 On a final note, our robot was disfunctional when we had faced the TA's robot. This was likely due to the laptop shutting down during waiting for our turn.
+
+Moving forward, better organization of code would have been helpful (separating large tasks into individual tasks), although it was not a priority as the basic functions had to be complete before the competition.
 
 Conclusions
 ============
