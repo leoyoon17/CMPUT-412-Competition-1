@@ -245,7 +245,7 @@ if __name__ == '__main__':
                         cv2.circle(frame_bkp, (cx, cy), 2, 255, -1)
 
                 if display:
-                    cv2.imshow('frame', frame_bkp)
+                    cv2.imdisplay('frame', frame_bkp)
 
                 prev_frame_gray = frame_gray
 
