@@ -7,9 +7,10 @@ To download the necessary files:
 git clone https://github.com/leoyoon17/CMPUT-412-Competition-1
 
 ```
-
 Note: Don't forget to connect the usb cables from the Kobuki base, the
 Asus Xtion Pro Live, and the logitech controller to your computer! (or ssh)
+
+Note: This program does not have a launch file as Leo's computer was unable to create a workspace package with "catkin_make", thus launchfiles would not run properly.
 
 To run the pursuit program, first open 5 terminals (or tmux windows, etc):
 ===========================================================================
