@@ -58,7 +58,7 @@ def depth_image_callback(msg):
     
 if __name__ == '__main__':
 
-    rospy.init_node('cascade_follower')
+    rospy.init_node('follower')
     get_image = rospy.Subscriber('camera/rgb/image_raw', Image, image_callback)
     get_depth_image = rospy.Subscriber('/camera/depth/image', Image, depth_image_callback)
 
