@@ -26,8 +26,8 @@ def got_twist(msg):
     g_twist = msg
 
 def scan_callback(msg): #Scan_callback gets the distance parameters from the camera and keep it in the list, find the minimum distance to the object which let robot to turn or move
-  global g_range_ahead_min, g_min_index
-  g_range_ahead_min = min(msg.ranges) #getting the minimum distance 
+  global get_min_range, g_min_ind
+  get_min_range = min(msg.ranges) #getting the minimum distance 
 
   depths_ahead = []
   depths_all = []
@@ -50,13 +50,13 @@ def scan_callback(msg): #Scan_callback gets the distance parameters from the cam
     g_range_all_min = min(depths_all)
 
   try:
-    g_min_index = msg.ranges.index(g_range_all_min)
+    g_min_ind = msg.ranges.index(g_range_all_min)
   except:
-    g_min_index = -1
+    g_min_ind = -1
 
-  print("range:",get_min_range,"index:",g_min_index)
+  print("range:",get_min_range,"index:",g_min_ind)
 
-g_min_index = 320 # initial to midle point
+g_min_ind = 320 # initial to midle point
 g_last_twist = Twist() # initial to 0
 get_min_range = 1 # anything to start
 g_stop_distance = 1.2
@@ -90,7 +90,7 @@ while not rospy.is_shutdown():
         driving_forward = True 
 
 
-    if start_turning:
+    if start_turning: # robot starts turning with this command based on the min_range
       if (get_min_range < 0.7 or np.isnan(get_min_range)): # 
         only_turning = True
     else:
@@ -98,22 +98,22 @@ while not rospy.is_shutdown():
         only_turning = False
         start_turning = False
 
-    if driving_forward:
+    if driving_forward: # if driving forward, then robot moves forward with 0.7 velocity
       g_last_twist.linear.x = 0.7
       g_last_twist.angular.z = 0
       start_turning = False
       only_turning = False
-    elif not start_turning:
+    elif not start_turning: #Robot moves forward with lower speed and turn at the sametime depends on the laser scan message. If there is a obstacle at the right then turns left or vice versa.
       g_last_twist.linear.x = 0.45
       start_turning = True
 
-      if g_min_index > 320:
+      if g_min_ind > 320:
         g_last_twist.angular.z = -2
-      elif g_min_index>=0:
+      elif g_min_ind>=0:
         g_last_twist.angular.z = 2
 
 
-    elif only_turning:
+    elif only_turning: # Robot does not move forward if the distance is smaller than 0.7 and there are obstacles at the both side of the robot
       g_last_twist.linear.x = 0
       if g_last_twist.angular.z == 0:
           g_last_twist.angular.z = random.uniform(-3.14, 3.14)
