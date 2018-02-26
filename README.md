@@ -28,7 +28,7 @@ On the fourth terminal:
 * $ roslaunch turtlebot_teleop logitech.launch
 
 On the fifth terminal:
-* change directory to /CMPUT412/Competition 1/CMPUT-412-Competition-1/src/followbot
+* change directory to /Competition 1/CMPUT-412-Competition-1/src/followbot
 * ./follower.py cmd_vel:=cmd_vel_mux/input/teleop
 
 * Finally, press the 'X' button on the logitech controller to start or stop the program!
